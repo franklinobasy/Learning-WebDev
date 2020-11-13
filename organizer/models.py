@@ -13,7 +13,7 @@ class Tag(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return self.name.title()
 
     class Meta():
         ordering = ['name']
@@ -44,7 +44,7 @@ class Startup(models.Model):
     
     class Meta():
         ordering = ['name']
-        get_lastest_by = 'founded_date'
+        get_latest_by = 'founded_date'
 
 class NewsLink(models.Model):
     title = models.CharField(max_length= 63)
@@ -53,15 +53,14 @@ class NewsLink(models.Model):
 
     link = models.URLField(max_length= 255)
 
-    startup = models.ForeignKey(Startup)
+    startup = models.ForeignKey(Startup, on_delete= models.CASCADE)
 
     def __str__(self):
         return "{} : {}".format(
             self.startup, self.title
         )
 
-    class Meta:
+    class Meta():
         verbose_name = 'news article'
         ordering = ['-pub_date']
         get_latest_by = 'pub_date'
-
